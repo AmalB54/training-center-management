@@ -1,0 +1,21 @@
+<div>
+    <h2>New Enrollment</h2>
+    <form th:action="@{/admin/enrollments/save}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Student</label>
+            <select name="studentMatricule" class="form-select" required>
+                <option value="">-- Select Student --</option>
+                <option th:each="s : ${students}" th:value="${s.matricule}" th:text="${s.firstName + ' ' + s.lastName + ' (' + s.matricule + ')'}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <select name="courseCode" class="form-select" required>
+                <option value="">-- Select Course --</option>
+                <option th:each="c : ${courses}" th:value="${c.code}" th:text="${c.code + ' - ' + c.title}"></option>
+            </select>
+        </div>
+        <button class="btn btn-success">Enroll</button>
+        <a th:href="@{/admin/enrollments}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

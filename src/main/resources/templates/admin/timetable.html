@@ -1,0 +1,69 @@
+<div>
+    <h2>Timetable by Specialty</h2>
+
+    <!-- Message d'erreur si présent -->
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong> <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Formulaire de sélection -->
+    <form method="get" class="mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label">Select Specialty</label>
+                <select name="specialtyId" class="form-select">
+                    <option value="">-- Select Specialty --</option>
+                    <option th:each="s : ${specialties}"
+                            th:value="${s.id}"
+                            th:text="${s.name}"
+                            th:selected="${s.id == selectedSpecialtyId}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-8 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary me-2">View Timetable</button>
+                <a th:href="@{/admin/timetable/new}" class="btn btn-success">Add Session</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- Message si aucune spécialité sélectionnée -->
+    <div th:if="${selectedSpecialtyId == null}" class="alert alert-info">
+        Please select a specialty to view the timetable.
+    </div>
+
+    <!-- Contenu quand une spécialité est sélectionnée -->
+    <div th:if="${selectedSpecialtyId != null}">
+
+        <!-- ✅ CORRECTION: Vérifier si sessions existe ET est vide -->
+        <div th:if="${sessions != null and sessions.isEmpty()}" class="alert alert-warning">
+            No sessions found for this specialty.
+            <a th:href="@{/admin/timetable/new}" class="alert-link">Add a new session</a>
+        </div>
+
+        <!-- ✅ CORRECTION: Vérifier si sessions existe ET n'est pas vide -->
+        <div th:if="${sessions != null and !sessions.isEmpty()}" class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Course</th>
+                    <th>Trainer</th>
+                    <th>Room</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cs : ${sessions}">
+                    <td th:text="${cs.date}"></td>
+                    <td th:text="${cs.startTime} + ' - ' + ${cs.endTime}"></td>
+                    <td th:text="${cs.course != null ? cs.course.title : 'N/A'}"></td>
+                    <td th:text="${cs.trainer != null ? cs.trainer.name : 'N/A'}"></td>
+                    <td th:text="${cs.room != null and cs.room != '' ? cs.room : 'N/A'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

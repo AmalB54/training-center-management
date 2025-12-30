@@ -1,0 +1,67 @@
+<div>
+    <h2>Add Course Session</h2>
+
+    <form th:action="@{/admin/timetable/save}"
+          th:object="${session}"
+          method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" th:field="*{date}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Start Time</label>
+            <input type="time" th:field="*{startTime}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">End Time</label>
+            <input type="time" th:field="*{endTime}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Room</label>
+            <input type="text" th:field="*{room}" class="form-control" placeholder="Room">
+        </div>
+
+        <!-- ✅ Changed from th:field="*{course}" to name="courseCode" -->
+        <div class="mb-3">
+            <label class="form-label">Course</label>
+            <select name="courseCode" class="form-select" required>
+                <option value="">-- Select Course --</option>
+                <option th:each="c : ${courses}"
+                        th:value="${c.code}"
+                        th:text="${c.title}">
+                </option>
+            </select>
+        </div>
+
+        <!-- ✅ Changed from th:field="*{trainer}" to name="trainerId" -->
+        <div class="mb-3">
+            <label class="form-label">Trainer</label>
+            <select name="trainerId" class="form-select" required>
+                <option value="">-- Select Trainer --</option>
+                <option th:each="t : ${trainers}"
+                        th:value="${t.id}"
+                        th:text="${t.name}">
+                </option>
+            </select>
+        </div>
+
+        <!-- ✅ Changed from th:field="*{specialty}" to name="specialtyId" -->
+        <div class="mb-3">
+            <label class="form-label">Specialty</label>
+            <select name="specialtyId" class="form-select" required>
+                <option value="">-- Select Specialty --</option>
+                <option th:each="s : ${specialties}"
+                        th:value="${s.id}"
+                        th:text="${s.name}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a th:href="@{/admin/timetable}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

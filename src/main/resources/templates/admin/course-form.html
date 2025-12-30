@@ -1,0 +1,53 @@
+<div>
+    <div class="page-header">
+        <h2>
+            <i class="bi bi-book me-2"></i>
+            <span th:text="${course.code != null ? 'Edit Course' : 'Add Course'}">Add Course</span>
+        </h2>
+        <p class="text-muted mb-0 mt-2" th:text="${course.code != null ? 'Modifier les informations du cours' : 'Créer un nouveau cours'}"></p>
+    </div>
+    
+    <div class="card card-modern border-0">
+        <div class="card-body p-4">
+            <form th:action="@{/admin/courses/save}" th:object="${course}" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-hash me-1"></i>Course Code
+                        </label>
+                        <input th:field="*{code}" class="form-control form-control-lg" placeholder="e.g., CS101" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-person-badge me-1"></i>Trainer (Optional)
+                        </label>
+                        <select name="trainerId" class="form-select form-select-lg">
+                            <option value="">-- Select Trainer --</option>
+                            <option th:each="t : ${trainers}" th:value="${t.id}" th:text="${t.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-bookmark me-1"></i>Title
+                        </label>
+                        <input th:field="*{title}" class="form-control form-control-lg" placeholder="Enter course title" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-file-text me-1"></i>Description
+                        </label>
+                        <textarea th:field="*{description}" class="form-control" placeholder="Enter course description" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-modern">
+                        <i class="bi bi-check-circle me-2"></i>Save Course
+                    </button>
+                    <a th:href="@{/admin/courses}" class="btn btn-secondary btn-modern">
+                        <i class="bi bi-x-circle me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
